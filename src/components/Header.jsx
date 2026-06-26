@@ -42,7 +42,7 @@ function Header () {
                     ))}
           </nav>
         </div>
-
+{/*debemos ver lo del carrito y los likes y el imput */}
         {/* Search + Actions */}
         <div className="flex items-center gap-4 flex-1 justify-end max-w-2xl">
           <div className="relative w-full max-w-sm hidden md:block">
