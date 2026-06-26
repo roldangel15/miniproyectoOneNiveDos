@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colores personalizados */
+  --color-tertiary: #943700;
+  --color-on-background: #191c1e;
+  --color-rating-amber: #f59e0b;
+  --color-primary-fixed-dim: #b4c5ff;
+  --color-outline: #737686;
+  --color-surface-container-high: #e6e8ea;
+  --color-on-surface: #191c1e;
+  --color-on-secondary-container: #fffbff;
+  --color-on-primary-fixed: #00174b;
+  --color-on-tertiary-container: #ffede6;
+  --color-secondary-container: #645efb;
+  --color-on-secondary-fixed: #0f0069;
+  --color-surface-dim: #d8dadc;
+  --color-primary: #004ac6;
+  --color-error-container: #ffdad6;
+  --color-surface-tint: #0053db;
+  --color-outline-variant: #c3c6d7;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-fixed-variant: #7d2d00;
+  --color-secondary-fixed-dim: #c3c0ff;
+  --color-surface-container-highest: #e0e3e5;
+  --color-primary-container: #2563eb;
+  --color-tertiary-fixed: #ffdbcd;
+  --color-tertiary-container: #bc4800;
+  --color-surface: #f7f9fb;
+  --color-price-black: #0f172a;
+  --color-surface-container-low: #f2f4f6;
+  --color-on-secondary-fixed-variant: #3323cc;
+  --color-on-tertiary-fixed: #360f00;
+  --color-border-subtle: #e2e8f0;
+  --color-tertiary-fixed-dim: #ffb596;
+  --color-on-surface-variant: #434655;
+  --color-inverse-on-surface: #eff1f3;
+  --color-surface-container-lowest: #ffffff;
+  --color-primary-fixed: #dbe1ff;
+  --color-on-error: #ffffff;
+  --color-background: #f7f9fb;
+  --color-inverse-surface: #2d3133;
+  --color-error: #ba1a1a;
+  --color-success-green: #10b981;
+  --color-surface-variant: #e0e3e5;
+  --color-surface-container: #eceef0;
+  --color-inverse-primary: #b4c5ff;
+  --color-on-error-container: #93000a;
+  --color-secondary-fixed: #e2dfff;
+  --color-on-primary-container: #eeefff;
+  --color-surface-bright: #f7f9fb;
+  --color-on-primary: #ffffff;
+  --color-secondary: #4b41e1;
+  --color-on-primary-fixed-variant: #003ea8;
+  --color-on-secondary: #ffffff;
+
+  /* Bordes */
+  --radius-default: 8px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* Espaciado */
+  --spacing-margin-mobile: 16px;
+  --spacing-container-max: 1280px;
+  --spacing-margin-desktop: 40px;
+  --spacing-base: 4px;
+  --spacing-gutter: 24px;
+
+  /* Fuentes */
+  --font-display-lg: "Inter", sans-serif;
+  --font-body-md: "Inter", sans-serif;
+  --font-headline-md: "Inter", sans-serif;
+  --font-headline-sm: "Inter", sans-serif;
+  --font-label-sm: "Inter", sans-serif;
+  --font-body-lg: "Inter", sans-serif;
+  --font-label-md: "Inter", sans-serif;
+
+  /* Tamaños de fuente */
+  --text-display-lg: 48px;
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 700;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 1.6;
+  --text-body-md--font-weight: 400;
+
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 1.3;
+  --text-headline-md--font-weight: 600;
+
+  --text-headline-sm: 20px;
+  --text-headline-sm--line-height: 1.4;
+  --text-headline-sm--font-weight: 600;
+
+  --text-display-lg-mobile: 32px;
+  --text-display-lg-mobile--line-height: 1.2;
+  --text-display-lg-mobile--letter-spacing: -0.02em;
+  --text-display-lg-mobile--font-weight: 700;
+
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 1.2;
+  --text-label-sm--font-weight: 600;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--font-weight: 400;
+
+  --text-label-md: 14px;
+  --text-label-md--line-height: 1.4;
+  --text-label-md--letter-spacing: 0.01em;
+  --text-label-md--font-weight: 500;
+}
+
+/* Estilos base */
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-background);
+  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-body-md);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  vertical-align: middle;
+}
+
+/* Utilidades personalizadas */
+@layer utilities {
+  .product-card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .product-card-hover:hover {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+
+  .hero-gradient {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+      url("https://lh3.googleusercontent.com/aida-public/AB6AXuDh8Yr_ryp9DIXmADudKi2lEW6IXrYAvaAoXKy3JRnhn4ABZCpX_x2oqNHFfeu4o4hS8jH7ZAa3U4zxEiXNb8eS6zNV7PLciaKl1TNH-UIilHSHttGxvlPUf1z5myvbp6TzByAYAzNm4QWXJ63MpxONURsJdPMI4JIeurPC7hhMF08-YNYaj2xHEjw6SGYIkdalDiGcBVXnY3jlRmUe_PhFRWz405vp_czqN4jDca6v_3hx6E-fvFlm-rtnq5qhVEt9FzW8iDPP2FI");
+    background-size: cover;
+    background-position: center;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d8dadc;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #737686;
+}
