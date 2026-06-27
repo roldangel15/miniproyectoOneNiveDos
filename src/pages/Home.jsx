@@ -8,6 +8,7 @@ function Home() {
       
       <main className="flex-1">
         <Hero />
+        
         <ProductGrid />
       </main>
       <Footer />

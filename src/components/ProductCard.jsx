@@ -32,7 +32,7 @@ export default function ProductCard({ product }) {
             star
           </span>
           <span className="text-label-sm ml-1 text-on-surface-variant">
-            {rating}
+            {rating.rate}
           </span>
         </div>
       </div>

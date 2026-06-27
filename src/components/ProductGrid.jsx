@@ -1,10 +1,80 @@
-import ProductCard from "./ProductCard";
+
 import { products } from "../data/products.js";
-import { useState } from "react";
+
+
+import React, { useState, useEffect } from 'react';
+import { useFetchProducts } from '../hooks/useFetchProducts';
+import ProductCard from './ProductCard';
+import SearchBar from './SearchBar';
+import CategoryFilter from './CategoryFilter';
+import Loading from './Loading';
+
 
 export default function ProductGrid() {
   const [sortBy, setSortBy] = useState("Newest");
-  const visibleProducts = products.slice(0, 8);
+  //const visibleProducts = products.slice(0, 8);
+
+
+ const { products, loading, error, fetchProducts, fetchProductsByCategory } = useFetchProducts();
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
+
+  const handleSearch = (searchTerm) => {
+    if (!searchTerm.trim()) {
+      setFilteredProducts(products);
+      return;
+    }
+
+    const filtered = products.filter((product) =>
+      product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    if (category) {
+      fetchProductsByCategory(category);
+    } else {
+      fetchProducts();
+    }
+  };
+
+  if (loading && products.length === 0) {
+    return <Loading message="Cargando catálogo de productos..." />;
+  }
+
+  if (error && products.length === 0) {
+    return (
+      <div className="text-center py-16 px-8">
+        <h2 className="text-3xl text-gray-800 mb-4">😕 Oops! Algo salió mal</h2>
+        <p className="text-gray-500 mb-8 text-lg">{error}</p>
+        <button
+          onClick={fetchProducts}
+          className="px-8 py-4 bg-blue-600 text-white rounded-lg text-base font-semibold hover:bg-blue-700 transition-colors"
+        >
+          🔄 Reintentar
+        </button>
+      </div>
+    );
+  }
+console.log(filteredProducts);
+  
+
+
+
+
+
+
+
+
+
+
 
   return (
     <section className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8">
@@ -43,21 +113,52 @@ export default function ProductGrid() {
       </div>
 
       {/* Grid */}
+
+{loading && <Loading message="Actualizando productos..." />}
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-lg mb-8 flex justify-between items-center">
+          <p className="m-0">{error}</p>
+          <button
+            onClick={fetchProducts}
+            className="bg-red-600 text-white border-none px-4 py-2 rounded-md cursor-pointer font-semibold hover:bg-red-700 transition-colors"
+          >
+            Reintentar
+          </button>
+        </div>
+      )}
+
+      {!loading && filteredProducts.length === 0 ? (
+        <div className="text-center py-16 px-8 text-gray-500">
+          <h3 className="text-2xl mb-2 text-gray-800">No se encontraron productos</h3>
+          <p>Intenta con otros términos de búsqueda</p>
+        </div>
+      ) : (
+
+
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
-        {visibleProducts.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+      )}
 
-      {/* Load more */}
+      {!loading && filteredProducts.length > 0 && (
+        <div className="text-center text-gray-500 text-sm p-4">
+          Mostrando {filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''}
+        </div>
+      )}
+
+      {/* Load more 
       <div className="mt-12 flex flex-col items-center gap-4">
         <button className="px-10 py-3 border border-border-subtle bg-white text-on-surface font-bold rounded-lg hover:bg-surface-container-low transition-all">
           Load More Products
         </button>
         <p className="text-label-sm text-on-surface-variant">
-          Showing {visibleProducts.length} of {products.length} products
+           Showing {filteredProducts.length} of {products.length} products
         </p>
-      </div>
+      </div>*/}
     </section>
   );
 }

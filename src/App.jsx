@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
+import ProductPage from './pages/ProductPage';
 
 function App() {
   const [search, setSearch] = useState("");
@@ -10,6 +11,8 @@ function App() {
       <Header/>
       <Routes>
         <Route path="/" element={<Home search={search} />} />
+         <Route path="/products/:id" element={<ProductPage />} />
+        
       
         {/* Puedes añadir más rutas aquí */}
       </Routes>

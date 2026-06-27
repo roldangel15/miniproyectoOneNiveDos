@@ -142,6 +142,30 @@ body {
     background-position: center;
   }
 
+/* Diseño para pantallas móviles (celulares) */
+@media (max-width: 768px) {
+  .hero-gradient {
+
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/public/img/modelo.jpeg" );
+    
+
+    background-position: top center; 
+    background-size: cover !important; 
+    background-repeat: no-repeat;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }

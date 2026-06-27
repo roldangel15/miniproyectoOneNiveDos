@@ -27,19 +27,8 @@ function Header () {
             </span>
           </a>
           <nav className="hidden lg:flex items-center gap-8">
-            {categories.map((category) => (
-                        <NavLink
-                            key={category.path}
-                            to={category.path}
-                            className={({ isActive }) =>
-                                isActive
-                                    ? "whitespace-nowrap font-bold text-blue-600"
-                                    : "whitespace-nowrap hover:text-blue-600"
-                            }
-                        >
-                            {category.label}
-                        </NavLink>
-                    ))}
+           
+           
           </nav>
         </div>
 {/*debemos ver lo del carrito y los likes y el imput */}
