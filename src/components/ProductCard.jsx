@@ -1,10 +1,23 @@
-import React from 'react'
+import { Link } from "react-router-dom";
+import { useCart } from '../contexts/CartContext';
 
 export default function ProductCard({ product }) {
   const { category, title, price, rating, image } = product;
 
+ const { addToCart } = useCart();
+  const truncatedTitle = product.title.length > 50 ? product.title.substring(0, 50) + '...' : product.title;
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    addToCart(product);
+  };
+
+
+
+
   return (
     <article className="bg-white border border-border-subtle rounded-xl overflow-hidden product-card-hover group p-4 flex flex-col">
+      <Link to={`/products/${product.id}`}> 
       <div className="aspect-square rounded-lg overflow-hidden bg-surface-container-low mb-4">
         <img
           alt={title}
@@ -12,6 +25,7 @@ export default function ProductCard({ product }) {
           src={image}
         />
       </div>
+      </Link>
       <div className="flex flex-col gap-1 mb-3">
         <span className="text-[10px] font-bold text-primary tracking-widest uppercase">
           {category}
@@ -36,7 +50,7 @@ export default function ProductCard({ product }) {
           </span>
         </div>
       </div>
-      <button className="w-full bg-on-background text-white py-2.5 rounded-lg font-label-md flex items-center justify-center gap-2 hover:bg-on-surface transition-colors">
+      <button onClick={handleAddToCart} className="w-full bg-on-background text-white py-2.5 rounded-lg font-label-md flex items-center justify-center gap-2 hover:bg-on-surface transition-colors">
         <span className="material-symbols-outlined text-lg">shopping_cart</span>
         Add to Cart
       </button>

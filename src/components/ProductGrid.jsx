@@ -63,17 +63,8 @@ export default function ProductGrid() {
       </div>
     );
   }
-console.log(filteredProducts);
+
   
-
-
-
-
-
-
-
-
-
 
 
   return (
