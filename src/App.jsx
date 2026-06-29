@@ -4,6 +4,7 @@ import { CartProvider } from './contexts/CartContext';
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import ProductPage from './pages/ProductPage';
+import CategoryPage from "./pages/CategoryPage";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -17,6 +18,12 @@ function App() {
        <Routes>
         <Route path="/" element={<Home search={search} />} />
          <Route path="/products/:id" element={<ProductPage />} />
+
+          <Route
+            path="/products/category/:category"
+            element={<CategoryPage search={search} />}
+          />
+
         
         <Route path="*" element={<NotFound />} />
         {/* Puedes añadir más rutas aquí */}

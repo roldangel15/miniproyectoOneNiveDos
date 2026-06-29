@@ -5,6 +5,7 @@ import ProductDetail from '../components/ProductDetail';
 
 const ProductPage = () => {
   const { id } = useParams();
+  
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
