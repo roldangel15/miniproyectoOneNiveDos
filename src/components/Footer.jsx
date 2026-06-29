@@ -19,7 +19,7 @@ export default function Footer() {
   const legal = ["Terms of Service", "Privacy Policy", "Cookies"];
 
   return (
-    <footer className="bg-white border-t border-border-subtle pt-16 pb-8 px-margin-mobile md:px-margin-desktop">
+    <footer className="hidden bg-white border-t border-border-subtle pt-16 pb-8 px-margin-mobile md:px-margin-desktop md:block">
       <div className="max-w-container-max mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
