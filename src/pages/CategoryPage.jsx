@@ -1,64 +1,47 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import axios from 'axios';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import BanerSortBar from '../components/BanerSortBar';
+import ProductGrid  from '../components/ProductGrid';
+import Loading      from '../components/Loading';
+import useFetchProducts from '../hooks/useFetchProducts';
 
-//import ErrorMessage from "../components/ErrorMessage";
-import Loading from "../components/Loading";
-import ProductGrid from "../components/ProductGrid";
+/**
+ * Página de categoría.
+ * Usa el mismo useFetchProducts pero pasando la categoría de la URL.
+ */
+export default function CategoryPage({ searchText }) {
+  const { category } = useParams();
+  const decodedCategory = decodeURIComponent(category);
 
-function formatCategory(category) {
-    return decodeURIComponent(category);
+  const [sortOption, setSortOption] = useState('Newest');
+
+  const { filteredProducts, loading, error, retry } = useFetchProducts({
+    searchText,
+    category: decodedCategory,
+    sortOption,
+  });
+
+  return (
+    <section className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8">
+      <BanerSortBar
+        category={decodedCategory}
+        sortOption={sortOption}
+        onSortChange={setSortOption}
+        total={loading ? undefined : filteredProducts.length}
+      />
+
+      {loading && <Loading message={`Cargando ${decodedCategory}...`} />}
+
+      {error && !loading && (
+        <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg flex justify-between items-center">
+          <p>{error}</p>
+          <button onClick={retry} className="bg-red-600 text-white px-4 py-2 rounded-lg text-label-md hover:bg-red-700 transition-colors">
+            Reintentar
+          </button>
+        </div>
+      )}
+
+      {!loading && !error && <ProductGrid products={filteredProducts} />}
+    </section>
+  );
 }
-
-function CategoryPage({ search }) {
-    const { category } = useParams();
-     
-    const [products, setProducts] = useState([]);
-    const [status, setStatus] = useState("loading");
-    const [error, setError] = useState("");
-
-    const activeCategory = formatCategory(category);
-    
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-
-        setStatus("loading");
-        setError("");
-        
-        const response = await axios.get(`https://fakestoreapi.com/products/category/${category}`);
-
-        setProducts(response.data);
-        setStatus("success");
-      } catch (error) {
-        setError(error.message);
-        setStatus("error");
-      }
-    };
-
-    fetchCategories();
-  }, []);
-
-  //para la busqueda por palabra
-    const filteredProducts = useMemo(() => {
-        const searchText = search.trim().toLowerCase();
-
-        if (!searchText) {
-            return products;
-        }
-
-        return products.filter((product) =>
-            product.title.toLowerCase().includes(searchText)
-        );
-    }, [products, search]);
-
-//aqui ya mostramos productos filtrados
-
-
-
-
-
-}
-
-export default CategoryPage;
