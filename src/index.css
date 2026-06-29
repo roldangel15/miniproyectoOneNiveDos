@@ -111,15 +111,13 @@
   --text-label-md--line-height: 1.4;
   --text-label-md--letter-spacing: 0.01em;
   --text-label-md--font-weight: 500;
+ 
+  --background-image-hero-mobile: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/img/modelo.jpeg");
+  --background-image-hero-desktop: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("/img/cadena.png");
+
 }
 
 /* Estilos base */
-body {
-  background-color: var(--color-background);
-  color: var(--color-on-background);
-  -webkit-font-smoothing: antialiased;
-  font-family: var(--font-body-md);
-}
 
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
@@ -134,36 +132,6 @@ body {
   .product-card-hover:hover {
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
   }
-
-  .hero-gradient {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-      url("https://lh3.googleusercontent.com/aida-public/AB6AXuDh8Yr_ryp9DIXmADudKi2lEW6IXrYAvaAoXKy3JRnhn4ABZCpX_x2oqNHFfeu4o4hS8jH7ZAa3U4zxEiXNb8eS6zNV7PLciaKl1TNH-UIilHSHttGxvlPUf1z5myvbp6TzByAYAzNm4QWXJ63MpxONURsJdPMI4JIeurPC7hhMF08-YNYaj2xHEjw6SGYIkdalDiGcBVXnY3jlRmUe_PhFRWz405vp_czqN4jDca6v_3hx6E-fvFlm-rtnq5qhVEt9FzW8iDPP2FI");
-    background-size: cover;
-    background-position: center;
-  }
-
-/* Diseño para pantallas móviles (celulares) */
-@media (max-width: 768px) {
-  .hero-gradient {
-
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/public/img/modelo.jpeg" );
-    
-
-    background-position: top center; 
-    background-size: cover !important; 
-    background-repeat: no-repeat;
-  }
-}
-
-
-
-
-
-
-
-
-
-
 
 
   .no-scrollbar::-webkit-scrollbar {
