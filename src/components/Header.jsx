@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useCart }       from '../contexts/CartContext';
 import CartDrawer        from './CartDrawer';
 import FavoritesDrawer   from './FavoritesDrawer';
-import HeaderMobile      from './HeaderMobile';
+import HeaderMobile      from './HeaderMobil';
 
 const CATEGORIES = [
   { label: 'Electronics', path: '/products/category/electronics' },

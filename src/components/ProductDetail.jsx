@@ -1,65 +1,23 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../contexts/CartContext';
+import { useCart }      from '../contexts/CartContext';
+import { useFavorites } from '../contexts/FavoritesContext';
+import Loading from './Loading';
 
-const ProductDetail = ({ product, loading, error }) => {
+export default function ProductDetail({ product, loading, error }) {
   const navigate = useNavigate();
- const { addToCart } = useCart();
+  const { addToCart }                    = useCart();
+  const { toggleFavorite, isFavorite }   = useFavorites();
 
-  // Skeleton loading
-  if (loading) {
-    return (
-      <div className="max-w-6xl mx-auto p-4 md:p-8">
-        <div className="mb-6">
-          <button
-            onClick={() => navigate(-1)}
-            className="text-blue-600 hover:text-blue-800 font-medium"
-          >
-            ← Volver
-          </button>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl p-6 md:p-8 shadow-sm">
-          {/* Skeleton Image */}
-          <div className="h-96 bg-gray-200 rounded-lg animate-pulse"></div>
-          
-          {/* Skeleton Content */}
-          <div className="space-y-4">
-            <div className="h-4 bg-gray-200 rounded w-1/4 animate-pulse"></div>
-            <div className="h-8 bg-gray-200 rounded w-3/4 animate-pulse"></div>
-            <div className="h-10 bg-gray-200 rounded w-1/3 animate-pulse"></div>
-            <div className="h-24 bg-gray-200 rounded w-full animate-pulse"></div>
-            <div className="h-12 bg-gray-200 rounded w-1/2 animate-pulse"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <Loading message="Cargando producto..." />;
 
-  // Error state
-  if (error) {
+  if (error || (!product && !loading)) {
     return (
-      <div className="max-w-6xl mx-auto p-8 text-center">
-        <div className="mb-6">
-          <button
-            onClick={() => navigate(-1)}
-            className="text-blue-600 hover:text-blue-800 font-medium"
-          >
-            ← Volver
-          </button>
-        </div>
-        
-        <div className="bg-red-50 border border-red-200 rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
-            Producto no encontrado
-          </h2>
-          <p className="text-gray-600 mb-6">
-            Lo sentimos, el producto que buscas no existe o fue eliminado.
-          </p>
-          <button
-            onClick={() => navigate('/')}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-          >
+      <div className="max-w-2xl mx-auto px-8 text-center py-20">
+        <button onClick={() => navigate(-1)} className="text-primary hover:underline mb-8 block">← Volver</button>
+        <div className="bg-red-50 border border-red-200 rounded-xl p-8">
+          <h2 className="text-headline-sm font-bold text-on-surface mb-2">Producto no encontrado</h2>
+          <p className="text-on-surface-variant text-label-md mb-6">{error || 'Sin datos disponibles.'}</p>
+          <button onClick={() => navigate('/')} className="px-6 py-3 bg-primary text-white rounded-lg font-bold hover:bg-surface-tint transition-colors">
             Volver al inicio
           </button>
         </div>
@@ -67,93 +25,55 @@ const ProductDetail = ({ product, loading, error }) => {
     );
   }
 
-  // No product and not loading
-  if (!product && !loading) {
-    return (
-      <div className="max-w-6xl mx-auto p-8 text-center">
-        <div className="mb-6">
-          <button
-            onClick={() => navigate(-1)}
-            className="text-blue-600 hover:text-blue-800 font-medium"
-          >
-            ← Volver
-          </button>
-        </div>
-        
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
-            Sin datos del producto
-          </h2>
-          <button
-            onClick={() => navigate('/')}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-4"
-          >
-            Volver al inicio
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // Success - render product
-  const handleAddToCart = () => {
-    if (product) {
-      addToCart(product);
-    }
-  };
+  const favorite = isFavorite(product.id);
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-8">
-      <div className="mb-6">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
-        >
-          ← Volver
-        </button>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl p-6 md:p-8 shadow-sm">
-        {/* Product Image */}
-        <div className="flex items-center justify-center bg-gray-50 rounded-xl p-8">
-          <img 
-            src={product?.image} 
-            alt={product?.title} 
-            className="max-w-full max-h-96 object-contain"
-          />
+    <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+      <button onClick={() => navigate(-1)} className="text-primary hover:underline mb-6 flex items-center gap-1 text-label-md">
+        <span className="material-symbols-outlined text-lg">arrow_back</span> Volver
+      </button>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-2xl p-6 md:p-10 shadow-sm border border-border-subtle">
+        {/* Imagen */}
+        <div className="flex items-center justify-center bg-surface-container-low rounded-xl p-10">
+          <img src={product.image} alt={product.title} className="max-h-80 object-contain" />
         </div>
-        
-        {/* Product Info */}
+
+        {/* Info */}
         <div className="flex flex-col">
-          <span className="text-sm text-gray-500 uppercase tracking-wide mb-2">
-            {product?.category}
-          </span>
-          
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 leading-tight">
-            {product?.title}
-          </h1>
-          
-          <p className="text-3xl md:text-4xl font-bold text-blue-600 mb-6">
-            ${product?.price?.toFixed(2)}
-          </p>
-          
-          <p className="text-base text-gray-600 leading-relaxed mb-8">
-            {product?.description}
-          </p>
-          
-          <div className="mt-auto">
+          <span className="text-[10px] font-bold text-primary uppercase tracking-widest mb-2">{product.category}</span>
+          <h1 className="text-headline-md font-headline-md text-on-surface mb-4 leading-tight">{product.title}</h1>
+
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-3xl font-bold text-on-surface">${product.price.toFixed(2)}</span>
+            <span className="flex items-center gap-1 text-rating-amber">
+              <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+              <span className="text-label-md text-on-surface-variant">{product.rating.rate} ({product.rating.count})</span>
+            </span>
+          </div>
+
+          <p className="text-label-md text-on-surface-variant leading-relaxed mb-8">{product.description}</p>
+
+          <div className="mt-auto flex gap-3 flex-wrap">
             <button
-              onClick={handleAddToCart}
-              className="w-full md:w-auto px-8 py-4 bg-blue-600 text-white rounded-lg text-base font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+              onClick={() => addToCart(product)}
+              className="flex-1 min-w-[160px] bg-primary text-white py-3 rounded-lg font-bold hover:bg-surface-tint transition-colors flex items-center justify-center gap-2"
             >
-              <span>🛒</span>
-              <span>Añadir al carrito</span>
+              <span className="material-symbols-outlined">shopping_cart</span>
+              Añadir al carrito
+            </button>
+            <button
+              onClick={() => toggleFavorite(product)}
+              className={`p-3 rounded-lg border transition-colors ${favorite ? 'border-red-300 bg-red-50 text-red-500' : 'border-border-subtle text-on-surface-variant hover:border-red-300 hover:text-red-400'}`}
+              aria-label={favorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+            >
+              <span className="material-symbols-outlined" style={{ fontVariationSettings: favorite ? "'FILL' 1" : "'FILL' 0" }}>
+                favorite
+              </span>
             </button>
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default ProductDetail;
+}
