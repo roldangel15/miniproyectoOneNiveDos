@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Hero         from '../components/Hero';
 import BanerSortBar from '../components/BanerSortBar';
 import ProductGrid  from '../components/ProductGrid';
@@ -8,11 +7,9 @@ import useFetchProducts from '../hooks/useFetchProducts';
 /**
  * Página principal.
  * Muestra Hero + BanerSortBar + ProductGrid.
- * Recibe searchText desde App (via Header).
+ * searchText y sortOption viven en App (compartidos con Header/Footer).
  */
-export default function Home({ searchText }) {
-  const [sortOption, setSortOption] = useState('Newest');
-
+export default function Home({ searchText, sortOption, onSortChange }) {
   const { filteredProducts, loading, error, retry } = useFetchProducts({
     searchText,
     category: '',
@@ -28,7 +25,7 @@ export default function Home({ searchText }) {
         <BanerSortBar
           category=""
           sortOption={sortOption}
-          onSortChange={setSortOption}
+          onSortChange={onSortChange}
           total={loading ? undefined : filteredProducts.length}
         />
 

@@ -2,7 +2,7 @@ export default function Hero() {
   return (
     <section className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8">
       {/* Centrado en móvil con justify-center, alineado a la izquierda en escritorio con md:justify-start */}
-      <div className="bg-hero-mobile bg-cover bg-position-[top_center] bg-no-repeat md:bg-hero-desktop md:bg-center rounded-3xl overflow-hidden min-h-[480px] flex items-center justify-center md:justify-start px-8 md:px-16 text-white relative">
+      <div className="bg-hero-mobile bg-cover bg-[position:top_center] bg-no-repeat md:bg-hero-desktop md:bg-center rounded-3xl overflow-hidden min-h-[480px] flex items-center justify-center md:justify-start px-8 md:px-16 text-white relative">
         {/* mx-auto y text-center en móvil; md:mx-0 y md:text-left en escritorio */}
         <div className="max-w-xl space-y-6 relative z-10 text-center mx-auto md:text-left md:mx-0">
           <div className="inline-flex items-center px-3 py-1 bg-primary/20 backdrop-blur-md rounded-full border border-white/20 text-label-sm uppercase tracking-widest text-primary-fixed-dim">

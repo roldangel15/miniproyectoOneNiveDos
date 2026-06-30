@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { useCart }       from '../contexts/CartContext';
-import CartDrawer        from './CartDrawer';
-import FavoritesDrawer   from './FavoritesDrawer';
-import HeaderMobile      from './HeaderMobil';
+import { useCart }     from '../contexts/CartContext';
+import CartDrawer      from './CartDrawer';
+import HeaderMobile    from './HeaderMobil';
 
 const CATEGORIES = [
   { label: 'Electronics', path: '/products/category/electronics' },
@@ -12,10 +11,15 @@ const CATEGORIES = [
   { label: "Women's",     path: "/products/category/women's%20clothing" },
 ];
 
-export default function Header({ searchText, onSearchChange }) {
+/**
+ * Props:
+ *   - searchText       : string
+ *   - onSearchChange   : fn
+ *   - onFavoritesOpen  : fn  ← viene de App, abre el drawer compartido
+ */
+export default function Header({ searchText, onSearchChange, onFavoritesOpen }) {
   const { getTotalItems } = useCart();
-  const [cartOpen, setCartOpen]           = useState(false);
-  const [favoritesOpen, setFavoritesOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const totalItems = getTotalItems();
 
@@ -72,14 +76,16 @@ export default function Header({ searchText, onSearchChange }) {
               )}
             </div>
 
+            {/* Favoritos — llama al drawer de App */}
             <button
-              onClick={() => setFavoritesOpen(true)}
+              onClick={onFavoritesOpen}
               className="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors"
               aria-label="Favoritos"
             >
               <span className="material-symbols-outlined">favorite</span>
             </button>
 
+            {/* Carrito — drawer propio del Header */}
             <button
               onClick={() => setCartOpen(true)}
               className="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full relative transition-colors"
@@ -92,26 +98,44 @@ export default function Header({ searchText, onSearchChange }) {
                 </span>
               )}
             </button>
-             <button className="rounded-full border-2 border-surface-container-high overflow-hidden w-8 h-8"> 
-              <img alt="Profile" className="w-full h-full object-cover" 
-                src="/img/rolando.png" /> 
-            </button>
+
+            {/* Perfil — misma funcionalidad que en FooterMobile (dirige a /profile, que no existe → NotFound) */}
+            <NavLink
+              to="/profile"
+              className={({ isActive }) =>
+                `p-1 rounded-full transition-colors ${isActive ? 'ring-2 ring-primary' : 'hover:bg-surface-container-low'}`
+              }
+              aria-label="Perfil"
+            >
+              <div className="w-8 h-8 rounded-full border-2 border-border-subtle overflow-hidden bg-surface-container-low">
+                <img
+                  src="/img/rolando.png"
+                  alt="Perfil"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback si la imagen no existe
+                    e.target.style.display = 'none';
+                    e.target.parentNode.innerHTML =
+                      '<span class="material-symbols-outlined text-[18px] flex items-center justify-center w-full h-full">person</span>';
+                  }}
+                />
+              </div>
+            </NavLink>
           </div>
         </div>
 
-        {/* ── Mobile (menor a lg) — delegado a HeaderMobile ── */}
+        {/* ── Mobile (< lg) — delegado a HeaderMobile ── */}
         <HeaderMobile
           searchText={searchText}
           onSearchChange={onSearchChange}
           onCartOpen={() => setCartOpen(true)}
-          onFavoritesOpen={() => setFavoritesOpen(true)}
+          onFavoritesOpen={onFavoritesOpen}
           cartCount={totalItems}
         />
       </header>
 
-      {/* Drawers compartidos entre desktop y mobile */}
-      <CartDrawer      open={cartOpen}      onClose={() => setCartOpen(false)} />
-      <FavoritesDrawer open={favoritesOpen} onClose={() => setFavoritesOpen(false)} />
+      {/* CartDrawer solo aquí — FavoritesDrawer vive en App */}
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );
 }

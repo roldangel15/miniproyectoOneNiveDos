@@ -27,12 +27,19 @@ export default function HeaderMobil({
   onFavoritesOpen,
   cartCount,
 }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null);
+  const [menuOpen, setMenuOpen]     = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const menuRef   = useRef(null);
+  const inputRef  = useRef(null);
 
-  // Cerrar con Escape
+  // Cerrar con Escape (cierra lo que esté abierto: menú o búsqueda)
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false); };
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        setSearchOpen(false);
+      }
+    };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, []);
@@ -43,7 +50,23 @@ export default function HeaderMobil({
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
+  // Enfocar el input automáticamente al abrir el buscador
+  useEffect(() => {
+    if (searchOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [searchOpen]);
+
   const closeMenu = () => setMenuOpen(false);
+
+  const toggleSearch = () => {
+    // Si hay texto y se cierra, lo limpiamos para no dejar un filtro activo oculto
+    setSearchOpen((prev) => {
+      const next = !prev;
+      if (!next && searchText) onSearchChange('');
+      return next;
+    });
+  };
 
   return (
     <>
@@ -59,18 +82,27 @@ export default function HeaderMobil({
           <span className="material-symbols-outlined">menu</span>
         </button>
 
-        {/* Logo centrado */}
-        <Link
-          to="/"
-          className="absolute left-1/2 -translate-x-1/2 text-xl font-black tracking-tighter text-on-surface flex items-center gap-1"
-        >
-          <span className="material-symbols-outlined text-primary text-2xl">shopping_bag</span>
-          LUXE.
-        </Link>
+        {/* Logo centrado — se oculta cuando el buscador está abierto para dar espacio al input */}
+        {!searchOpen && (
+          <Link
+            to="/"
+            className="absolute left-1/2 -translate-x-1/2 text-xl font-black tracking-tighter text-on-surface flex items-center gap-1"
+          >
+            <span className="material-symbols-outlined text-primary text-2xl">shopping_bag</span>
+            LUXE.
+          </Link>
+        )}
 
         {/* Acciones derecha */}
-        <div className="flex items-center gap-1">
-         
+        <div className="flex items-center gap-1 ml-auto">
+          {/* Botón buscar — alterna el input */}
+          <button
+            onClick={toggleSearch}
+            className="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors"
+            aria-label={searchOpen ? 'Cerrar búsqueda' : 'Buscar'}
+          >
+            <span className="material-symbols-outlined">{searchOpen ? 'close' : 'search'}</span>
+          </button>
 
           <button
             onClick={onCartOpen}
@@ -84,34 +116,35 @@ export default function HeaderMobil({
               </span>
             )}
           </button>
-          
-
         </div>
       </div>
 
-      {/* ── Buscador móvil debajo de la barra ── */}
-      <div className="lg:hidden px-margin-mobile pb-3 border-b border-border-subtle">
-        <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl pointer-events-none">
-            search
-          </span>
-          <input
-            type="text"
-            value={searchText}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search products..."
-            className="w-full bg-surface-container-low border border-border-subtle rounded-full py-2 pl-10 pr-9 text-label-md focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
-          />
-          {searchText && (
-            <button
-              onClick={() => onSearchChange('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface"
-            >
-              <span className="material-symbols-outlined text-lg">close</span>
-            </button>
-          )}
+      {/* ── Buscador móvil — solo se renderiza cuando searchOpen es true ── */}
+      {searchOpen && (
+        <div className="lg:hidden px-margin-mobile pb-3 border-b border-border-subtle animate-[slideDown_0.2s_ease-out]">
+          <div className="relative">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl pointer-events-none">
+              search
+            </span>
+            <input
+              ref={inputRef}
+              type="text"
+              value={searchText}
+              onChange={(e) => onSearchChange(e.target.value)}
+              placeholder="Search products..."
+              className="w-full bg-surface-container-low border border-border-subtle rounded-full py-2 pl-10 pr-9 text-label-md focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+            />
+            {searchText && (
+              <button
+                onClick={() => onSearchChange('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface"
+              >
+                <span className="material-symbols-outlined text-lg">close</span>
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ── Overlay oscuro ── */}
       <div
@@ -213,8 +246,6 @@ export default function HeaderMobil({
               </span>
             )}
           </button>
-           
-
         </div>
       </aside>
     </>

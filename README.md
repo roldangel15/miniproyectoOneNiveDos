@@ -1,16 +1,61 @@
-# React + Vite
+# FakeStore API Catalog
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Descripción
 
-Currently, two official plugins are available:
+Catálogo de productos desarrollado con **ReactJS** y **Tailwind CSS**, consumiendo la [Fake Store API](https://fakestoreapi.com) como fuente de datos. La aplicación permite explorar productos por categoría, buscarlos en tiempo real, ordenarlos según distintos criterios, gestionar un carrito de compras y guardar productos favoritos, todo con un diseño responsivo adaptado tanto a escritorio como a dispositivos móviles.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Despliegue
 
-## React Compiler
+https://miniproyecto-one-nive-dos.vercel.app/
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📁 Repositorio
 
-## Expanding the ESLint configuration
+https://github.com/roldangel15/miniproyectoOneNiveDos
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Instalación
+
+1. Clonar el repositorio:
+   ```bash
+   git clone https://github.com/roldangel15/miniproyectoOneNiveDos.git
+   cd miniproyectoOneNiveDos
+   ```
+
+2. Instalar las dependencias:
+   ```bash
+   pnpm install
+   pnpm install tailwindcss @tailwindcss/vite
+   pnpm install react-router-dom axios
+   ```
+
+3. Levantar el servidor de desarrollo:
+   ```bash
+   pnpm run dev
+   ```
+
+4. Abrir el navegador en la URL indicada por la consola (por defecto `http://localhost:5173`).
+
+5. Para generar la build de producción:
+   ```bash
+   pnpm run build
+   ```
+
+6. Para previsualizar la build de producción localmente:
+   ```bash
+   pnpm run preview
+   ```
+
+## ⚙️ Características
+
+- Listado de productos
+- Búsqueda en tiempo real
+- Filtro por categorías
+- Página de detalle
+- Ordenamiento de productos (más recientes, precio, mejor valorados)
+- Carrito de compras (agregar, modificar cantidad, eliminar productos)
+- Lista de favoritos con persistencia en `localStorage`
+- Header fijo con buscador y navegación por categorías
+- Diseño responsivo con menú lateral y barra de navegación inferior en mobile
+
+## 👥 Integrantes del Equipo
+
+- Rolando Angel Campuzano Ustarez

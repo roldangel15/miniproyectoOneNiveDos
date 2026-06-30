@@ -3,13 +3,14 @@ import { useState, useEffect, useRef } from 'react';
 import { useFavorites } from '../contexts/FavoritesContext';
 
 /**
- * FooterMobil
+ * FooterMobile
  * Barra de navegación fija en la parte inferior, solo visible en mobile (< md).
  *
  * Props:
  *   - onFavoritesOpen : fn — abre el drawer de favoritos
+ *   - onExploreClick  : fn — abre el selector de orden (SortSheet)
  */
-export default function FooterMobil({ onFavoritesOpen }) {
+export default function FooterMobil({ onFavoritesOpen, onExploreClick }) {
   const { favorites } = useFavorites();
   const favCount = favorites.length;
 
@@ -17,6 +18,8 @@ export default function FooterMobil({ onFavoritesOpen }) {
     'flex flex-col items-center justify-center gap-0.5 transition-colors min-w-0 flex-1 py-1';
   const activeClass  = 'text-primary';
   const defaultClass = 'text-on-surface-variant hover:text-primary';
+
+
 
 const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -52,16 +55,10 @@ const [menuOpen, setMenuOpen] = useState(false);
   const legal = ['Terms of Service', 'Privacy Policy', 'Cookies'];
 
 
-
-
-
-
-
-
   return (
-    <footer className="bg-white border-t border-border-subtle pt-16 pb-8 px-margin-mobile md:px-margin-desktop md:hidden">
-<div className="max-w-container-max mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+  <footer className="bg-white border-t border-border-subtle pt-16 pb-8 px-margin-mobile md:px-margin-desktop md:hidden"> 
+    <div className="max-w-container-max mx-auto">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="space-y-6">
             <a href="#" className="text-2xl font-black tracking-tighter text-on-surface">
@@ -139,11 +136,11 @@ const [menuOpen, setMenuOpen] = useState(false);
                 Subscribe
               </button>
             </div>
-          </div>
-        </div>
+          </div>  
+  </div>
 
         {/* Bottom */}
-        <div className="border-t border-border-subtle pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+     <div className="border-t border-border-subtle pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-label-sm text-on-surface-variant">
             © 2024 Luxe Store. Powered by FakeStore API.
           </p>
@@ -154,9 +151,8 @@ const [menuOpen, setMenuOpen] = useState(false);
               </a>
             ))}
           </div>
-        </div>
-      </div>
-
+    </div>
+</div>
     <nav
       className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-border-subtle shadow-[0_-4px_20px_rgba(0,0,0,0.08)]"
       aria-label="Navegación principal"
@@ -184,25 +180,15 @@ const [menuOpen, setMenuOpen] = useState(false);
           )}
         </NavLink>
 
-        {/* Electronics (Explore) */}
-        <NavLink
-          to="/products/category/electronics"
-          className={({ isActive }) =>
-            `${navItemBase} ${isActive ? activeClass : defaultClass}`
-          }
+        {/* Explore → abre el selector de orden (SortSheet) */}
+        <button
+          onClick={onExploreClick}
+          className={`${navItemBase} ${defaultClass}`}
+          aria-label="Ordenar productos"
         >
-          {({ isActive }) => (
-            <>
-              <span
-                className="material-symbols-outlined text-[22px]"
-                style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
-              >
-                explore
-              </span>
-              <span className="text-[9px] font-bold tracking-wide uppercase">Explore</span>
-            </>
-          )}
-        </NavLink>
+          <span className="material-symbols-outlined text-[22px]">sort</span>
+          <span className="text-[9px] font-bold tracking-wide uppercase">Sort by</span>
+        </button>
 
         {/* Favoritos */}
         <button
@@ -250,6 +236,6 @@ const [menuOpen, setMenuOpen] = useState(false);
 
       </div>
     </nav>
-    </footer>
+  </footer> 
   );
 }

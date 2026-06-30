@@ -27,13 +27,14 @@ export default function BanerSortBar({ category, sortOption, onSortChange, total
         <p className="text-on-surface-variant text-label-md">
           {description}
           {total !== undefined && (
-            <span className="ml-2 text-primary font-semibold">· {total} products</span>
+            <span className="ml-2 text-primary font-semibold">· {total} productos</span>
           )}
         </p>
       </div>
 
-      {/* Selector de orden */}
-      <div className="flex items-center gap-3">
+      {/* Selector de orden — solo visible en desktop. En mobile se gestiona
+          exclusivamente desde el botón "Explore" del FooterMobile (SortSheet). */}
+      <div className="hidden md:flex items-center gap-3">
         <span className="text-label-md text-on-surface-variant hidden sm:block">Ordenar por:</span>
         <div className="relative">
           <select

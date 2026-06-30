@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import BanerSortBar from '../components/BanerSortBar';
 import ProductGrid  from '../components/ProductGrid';
@@ -7,13 +6,11 @@ import useFetchProducts from '../hooks/useFetchProducts';
 
 /**
  * Página de categoría.
- * Usa el mismo useFetchProducts pero pasando la categoría de la URL.
+ * searchText y sortOption viven en App (compartidos con Header/Footer).
  */
-export default function CategoryPage({ searchText }) {
+export default function CategoryPage({ searchText, sortOption, onSortChange }) {
   const { category } = useParams();
   const decodedCategory = decodeURIComponent(category);
-
-  const [sortOption, setSortOption] = useState('Newest');
 
   const { filteredProducts, loading, error, retry } = useFetchProducts({
     searchText,
@@ -26,7 +23,7 @@ export default function CategoryPage({ searchText }) {
       <BanerSortBar
         category={decodedCategory}
         sortOption={sortOption}
-        onSortChange={setSortOption}
+        onSortChange={onSortChange}
         total={loading ? undefined : filteredProducts.length}
       />
 
